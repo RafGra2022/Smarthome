@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Smart</string>
+    <string name="title_activity_greenhouse">GreenhouseActivity</string>
+    <string name="greenhouse">Szklarnia</string>
+    <string name="greenhouse_open_door">Otwórz drzwi szklarni</string>
+    <string name="channel_for_greenhouse">channel for greenhouse</string>
+</resources>
