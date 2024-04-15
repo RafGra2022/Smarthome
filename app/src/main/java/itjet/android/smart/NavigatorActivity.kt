@@ -8,7 +8,6 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import itjet.android.smart.greenhouse.GreenhouseWorker
-import itjet.android.smart.http.WiFiContext
 import java.time.Duration
 
 
@@ -22,7 +21,6 @@ class NavigatorActivity : ComponentActivity() {
             navigatorScreen.navigator()
         }
         startInfiniteWorker()
-        WiFiContext.application = application
     }
 
     private fun startInfiniteWorker() {
