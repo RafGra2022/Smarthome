@@ -36,7 +36,7 @@ import retrofit2.Response
 
 public class SettingsScreen(private val application: Application) {
 
-    val client = Webclient.getInstance().getRetrofitInstance()
+    val client = Webclient.getInstance().getRetrofitInstance(application)
     private var humidity70 = false
     private var humidity60 = false
     private var humidity50 = false

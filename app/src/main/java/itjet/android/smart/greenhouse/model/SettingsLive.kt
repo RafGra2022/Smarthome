@@ -27,7 +27,7 @@ class SettingsLive(private val application: Application) : AndroidViewModel(appl
     }
 
     fun refreshSettings() {
-        Webclient.getInstance().getRetrofitInstance().getSettings().enqueue(object : Callback<Settings> {
+        Webclient.getInstance().getRetrofitInstance(application).getSettings().enqueue(object : Callback<Settings> {
             override fun onResponse(call: Call<Settings>, response: Response<Settings>) {
                 val settings = response.body()
                 if(settings !=null){

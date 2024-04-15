@@ -42,15 +42,15 @@ class Webclient {
 
     }
 
-    fun getRetrofitInstance(): IGreenhouse {
+    fun getRetrofitInstance(context: Context): IGreenhouse {
 
-        val cert = WiFiContext.application.resources.openRawResource(R.raw.client)
+        val cert = context.resources.openRawResource(R.raw.client)
         val cf: CertificateFactory = CertificateFactory.getInstance("X.509")
         val x509Certificate: X509Certificate =
             cf.generateCertificate(cert) as X509Certificate
-        val server = WiFiContext.application.resources.openRawResource(R.raw.root)
+        val server = context.resources.openRawResource(R.raw.root)
         val servercert: X509Certificate = cf.generateCertificate(server) as X509Certificate
-        val keyPair = KeyPair(x509Certificate.publicKey, loadPrivateKey())
+        val keyPair = KeyPair(x509Certificate.publicKey, loadPrivateKey(context))
 
         val handshakeCertificates: HandshakeCertificates = HandshakeCertificates.Builder()
             .addTrustedCertificate(servercert)
@@ -67,7 +67,7 @@ class Webclient {
 
 
         if (!::retrofitInstance.isInitialized) {
-            val wifiName: String = checkWiFi()
+            val wifiName: String = checkWiFi(context)
             if (wifiName.equals("\"siecsasiedzka2516\"") || wifiName.equals("\"siecsasiedzka2516-ext\"")) {
                 val retrofit = Retrofit.Builder()
                     .baseUrl(BASE_URL)
@@ -87,14 +87,14 @@ class Webclient {
         return retrofitInstance
     }
 
-    private fun checkWiFi(): String {
+    private fun checkWiFi(context: Context): String {
         val wifiManager =
-            WiFiContext.application.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+            context.getSystemService(Context.WIFI_SERVICE) as WifiManager
         return wifiManager.connectionInfo.ssid
     }
 
-    private fun loadPrivateKey(): PrivateKey? {
-        val private = WiFiContext.application.resources.openRawResource(R.raw.pkey)
+    private fun loadPrivateKey(context: Context): PrivateKey? {
+        val private = context.resources.openRawResource(R.raw.pkey)
         val encoded: ByteArray = Base64.decode(private.readBytes(), Base64.DEFAULT)
         val keySpec = PKCS8EncodedKeySpec(encoded)
         val kf = KeyFactory.getInstance("RSA")

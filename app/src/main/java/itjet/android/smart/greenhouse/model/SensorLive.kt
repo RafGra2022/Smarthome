@@ -40,7 +40,7 @@ class SensorLive(private val application: Application) : AndroidViewModel(applic
     }
 
     fun refreshIndicators() {
-        response = Webclient.getInstance().getRetrofitInstance().getSensorData().enqueue(object : Callback<Sensor> {
+        response = Webclient.getInstance().getRetrofitInstance(application).getSensorData().enqueue(object : Callback<Sensor> {
             override fun onResponse(call: Call<Sensor>, response: Response<Sensor>) {
                 val sensor = response.body()
                 if(sensor !=null){

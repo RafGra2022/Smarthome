@@ -28,7 +28,7 @@ class GreenhouseWorker(
 
         val uploadWorkRequest: OneTimeWorkRequest =
             OneTimeWorkRequestBuilder<GreenhouseWorker>().setInitialDelay(
-                Duration.ofMinutes(15)
+                Duration.ofMinutes(10)
             ).build()
 
         WorkManager.getInstance(context).enqueueUniqueWork(
@@ -45,7 +45,7 @@ class GreenhouseWorker(
     }
 
     private fun checkTemperature(){
-        Webclient.getInstance().getRetrofitInstance().getSensorData().enqueue(object :
+        Webclient.getInstance().getRetrofitInstance(context).getSensorData().enqueue(object :
             Callback<Sensor> {
             override fun onResponse(call: Call<Sensor>, response: Response<Sensor>) {
                 val sensor = response.body()
