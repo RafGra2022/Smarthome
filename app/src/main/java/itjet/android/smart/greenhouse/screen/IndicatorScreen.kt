@@ -3,11 +3,13 @@ package itjet.android.smart.greenhouse.screen
 import android.app.Activity
 import android.content.Context
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -230,8 +232,14 @@ class IndicatorScreen(activity: Activity) {
             }
             Row(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding((width * 0.44).dp, (height * 0.05).dp, 0.dp, 0.dp),
+                    .padding((width * 0).dp, (height * 0.01).dp, 0.dp, 0.dp),
+            ) {
+//                Spacer(modifier = Modifier.padding((width*0.04).dp,80.dp,0.dp,80.dp))
+                SystemStatus()
+            }
+            Row(
+                modifier = Modifier
+                    .padding((width * 0.44).dp, 0.dp, (width * 0.02).dp, 0.dp),
             ) {
                 Settings(navController)
             }
@@ -596,6 +604,27 @@ class IndicatorScreen(activity: Activity) {
                 painter = painterResource(id = R.drawable.baseline_settings_24),
                 contentDescription = null, Modifier.then(Modifier.size((Dp(40F))))
             ) // decorative element, "Large floating action button")
+        }
+    }
+
+    @Composable
+    fun SystemStatus() {
+        val vm = viewModel<SensorLive>()
+        val screenState by vm.screenState.collectAsState()
+//        val status = screenState.systemStatus.status
+//        if(status.equals("UP")){
+//            Image(painterResource(R.drawable.baseline_gpp_good_24), "content description")
+//        }else{
+//            Image(painterResource(R.drawable.baseline_warning_amber_24), "content description")
+//        }
+        val metric = LocalContext.current.getResources().getDisplayMetrics()
+        val height = metric.heightPixels.toFloat()
+        val width = metric.widthPixels.toFloat()
+        if(false) {
+            Image(painterResource(R.drawable.baseline_electric_bolt_24), "content description")
+            Spacer(modifier = Modifier.padding((width*0.21).dp, 0.dp, 0.dp, 0.dp))
+//            Spacer(modifier = Modifier.padding((width*0.26).dp, 0.dp, 0.dp, 0.dp))
+            Image(painterResource(R.drawable.baseline_gpp_good_24), "content description")
         }
     }
 }
