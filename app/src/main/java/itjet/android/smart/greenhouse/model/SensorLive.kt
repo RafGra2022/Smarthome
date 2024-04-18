@@ -16,12 +16,13 @@ import retrofit2.Response
 
 class SensorLive(private val application: Application) : AndroidViewModel(application) {
 
-    private val _screenState = MutableStateFlow(SensorData(Sensor(),SystemStatus(DeviceStatus())))
+    private val _screenState = MutableStateFlow(SensorData(Sensor(), SystemStatus(DeviceStatus())))
 
     private lateinit var response: Unit
 
     @Volatile
     var screenState = _screenState.asStateFlow()
+
     @Volatile
     var toContinue = true
 
@@ -32,7 +33,7 @@ class SensorLive(private val application: Application) : AndroidViewModel(applic
 
     init {
         viewModelScope.launch {
-            while(toContinue) {
+            while (toContinue) {
                 refreshIndicators()
                 delay(500)
             }
@@ -55,8 +56,10 @@ class SensorLive(private val application: Application) : AndroidViewModel(applic
                                     data.sensors.groundHumidity2,
                                     data.sensors.groundHumidity3
                                 ), SystemStatus(
-                                    DeviceStatus(data.systemStatus.deviceStatus.status,
-                                        data.systemStatus.deviceStatus.voltage)
+                                    DeviceStatus(
+                                        data.systemStatus.deviceStatus.status,
+                                        data.systemStatus.deviceStatus.voltage
+                                    )
                                 )
 
                             )
@@ -67,6 +70,14 @@ class SensorLive(private val application: Application) : AndroidViewModel(applic
 
                 override fun onFailure(call: Call<SensorData>, t: Throwable) {
                     Log.v("retrofit", "call failed" + t.cause)
+                    _screenState.update {
+                        SensorData(
+                            Sensor(
+                            ), SystemStatus(
+                                DeviceStatus("SERVER-DOWN")
+                            )
+                        )
+                    }
                 }
             })
     }
