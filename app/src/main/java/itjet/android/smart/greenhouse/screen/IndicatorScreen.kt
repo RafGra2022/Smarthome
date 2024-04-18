@@ -609,18 +609,23 @@ class IndicatorScreen(activity: Activity) {
 
     @Composable
     fun SystemStatus() {
+        val metric = LocalContext.current.getResources().getDisplayMetrics()
+        val width = metric.widthPixels.toFloat()
         val vm = viewModel<SensorLive>()
         val screenState by vm.screenState.collectAsState()
-        val status = screenState.systemStatus.status
-        if(status.equals("UP")){
-            Image(painterResource(R.drawable.baseline_gpp_good_24), "content description")
-        }else{
-            Image(painterResource(R.drawable.baseline_warning_amber_24), "content description")
+        val status = screenState.systemStatus.deviceStatus.status
+        val voltage = screenState.systemStatus.deviceStatus.voltage
+        var widthCorrected = (width*0.26).toFloat()
+        if(voltage){
+            Image(painterResource(R.drawable.baseline_electric_bolt_24), "")
+            widthCorrected = (width*0.21).toFloat()
         }
-        if(false) {
-            Image(painterResource(R.drawable.baseline_electric_bolt_24), "content description")
-            Spacer(modifier = Modifier.padding((150).dp, 0.dp, 0.dp, 0.dp))
-//            Image(painterResource(R.drawable.baseline_gpp_good_24), "content description")
+        if(status.equals("UP")){
+            Spacer(modifier = Modifier.padding((widthCorrected).dp, 0.dp, 0.dp, 0.dp))
+            Image(painterResource(R.drawable.baseline_gpp_good_24), "")
+        }else{
+            Spacer(modifier = Modifier.padding((widthCorrected).dp, 0.dp, 0.dp, 0.dp))
+            Image(painterResource(R.drawable.baseline_warning_amber_24), "")
         }
     }
 }

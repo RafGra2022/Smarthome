@@ -54,7 +54,11 @@ class SensorLive(private val application: Application) : AndroidViewModel(applic
                                     data.sensors.groundHumidity1,
                                     data.sensors.groundHumidity2,
                                     data.sensors.groundHumidity3
-                                ), data.systemStatus
+                                ), SystemStatus(
+                                    DeviceStatus(data.systemStatus.deviceStatus.status,
+                                        data.systemStatus.deviceStatus.voltage)
+                                )
+
                             )
                         }
                     }
