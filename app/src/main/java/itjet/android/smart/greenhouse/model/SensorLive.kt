@@ -10,14 +10,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import okhttp3.internal.wait
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class SensorLive(private val application: Application) : AndroidViewModel(application) {
 
-    private val _screenState = MutableStateFlow(Sensor())
+    private val _screenState = MutableStateFlow(SensorData(Sensor(),SystemStatus(DeviceStatus())))
+
     private lateinit var response: Unit
 
     @Volatile
@@ -40,27 +40,31 @@ class SensorLive(private val application: Application) : AndroidViewModel(applic
     }
 
     fun refreshIndicators() {
-        response = Webclient.getInstance().getRetrofitInstance(application).getSensorData().enqueue(object : Callback<Sensor> {
-            override fun onResponse(call: Call<Sensor>, response: Response<Sensor>) {
-                val sensor = response.body()
-                if(sensor !=null){
-                    _screenState.update {
-                        Sensor(
-                            sensor.groundTemperature,
-                            sensor.airTemperature,
-                            sensor.airHumidity,
-                            sensor.groundHumidity1,
-                            sensor.groundHumidity2,
-                            sensor.groundHumidity3
-                        )
+        response = Webclient.getInstance().getRetrofitInstance(application).getSensorData()
+            .enqueue(object : Callback<SensorData> {
+                override fun onResponse(call: Call<SensorData>, response: Response<SensorData>) {
+                    val data = response.body()
+                    if (data != null) {
+                        _screenState.update {
+                            SensorData(
+                                Sensor(
+                                    data.sensors.groundTemperature,
+                                    data.sensors.airTemperature,
+                                    data.sensors.airHumidity,
+                                    data.sensors.groundHumidity1,
+                                    data.sensors.groundHumidity2,
+                                    data.sensors.groundHumidity3
+                                ), data.systemStatus
+                            )
+                        }
                     }
+
                 }
 
-            }
-            override fun onFailure(call: Call<Sensor>, t: Throwable) {
-                Log.v("retrofit", "call failed" +  t.cause)
-            }
-        })
+                override fun onFailure(call: Call<SensorData>, t: Throwable) {
+                    Log.v("retrofit", "call failed" + t.cause)
+                }
+            })
     }
 
 }

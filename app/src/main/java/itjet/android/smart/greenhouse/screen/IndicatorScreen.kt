@@ -3,11 +3,13 @@ package itjet.android.smart.greenhouse.screen
 import android.app.Activity
 import android.content.Context
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -230,8 +232,14 @@ class IndicatorScreen(activity: Activity) {
             }
             Row(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding((width * 0.44).dp, (height * 0.05).dp, 0.dp, 0.dp),
+                    .padding((width * 0).dp, (height * 0.01).dp, 0.dp, 0.dp),
+            ) {
+//                Spacer(modifier = Modifier.padding((width*0.04).dp,80.dp,0.dp,80.dp))
+                SystemStatus()
+            }
+            Row(
+                modifier = Modifier
+                    .padding((width * 0.44).dp, 0.dp, (width * 0.02).dp, 0.dp),
             ) {
                 Settings(navController)
             }
@@ -244,7 +252,7 @@ class IndicatorScreen(activity: Activity) {
     fun GroundHumidity3() {
         val vm = viewModel<SensorLive>()
         val screenState by vm.screenState.collectAsState()
-        val humidity = screenState.groundHumidity3.toFloat()
+        val humidity = screenState.sensors.groundHumidity3.toFloat()
         var customColor = Color(0xFF5FB32B)
 
 
@@ -299,7 +307,7 @@ class IndicatorScreen(activity: Activity) {
     fun GroundHumidity2() {
         val vm = viewModel<SensorLive>()
         val screenState by vm.screenState.collectAsState()
-        val humidity = screenState.groundHumidity2.toFloat()
+        val humidity = screenState.sensors.groundHumidity2.toFloat()
         var customColor = Color(0xFF5FB32B)
 
 
@@ -354,7 +362,7 @@ class IndicatorScreen(activity: Activity) {
     fun GroundHumidity1() {
         val vm = viewModel<SensorLive>()
         val screenState by vm.screenState.collectAsState()
-        val humidity = screenState.groundHumidity1.toFloat()
+        val humidity = screenState.sensors.groundHumidity1.toFloat()
         var customColor = Color(0xFF5FB32B)
 
         if (humidity < 50) {
@@ -408,7 +416,7 @@ class IndicatorScreen(activity: Activity) {
     fun AirHumidity() {
         val vm = viewModel<SensorLive>()
         val screenState by vm.screenState.collectAsState()
-        val humidity = screenState.airHumidity.toFloat()
+        val humidity = screenState.sensors.airHumidity.toFloat()
         var customColor = Color(0xFF5FB32B)
 
 
@@ -463,7 +471,7 @@ class IndicatorScreen(activity: Activity) {
     fun AirTemperature() {
         val vm = viewModel<SensorLive>()
         val screenState by vm.screenState.collectAsState()
-        var temperature = screenState.airTemperature.toFloat()
+        var temperature = screenState.sensors.airTemperature.toFloat()
         var customColor = Color(0xFF5FB32B)
 
         if (temperature > 50) {
@@ -523,7 +531,7 @@ class IndicatorScreen(activity: Activity) {
     fun GroundTemperature() {
         val vm = viewModel<SensorLive>()
         val screenState by vm.screenState.collectAsState()
-        var temperature = screenState.groundTemperature.toFloat()
+        var temperature = screenState.sensors.groundTemperature.toFloat()
         var customColor = Color(0xFF5FB32B)
 
         if (temperature > 50) {
@@ -596,6 +604,23 @@ class IndicatorScreen(activity: Activity) {
                 painter = painterResource(id = R.drawable.baseline_settings_24),
                 contentDescription = null, Modifier.then(Modifier.size((Dp(40F))))
             ) // decorative element, "Large floating action button")
+        }
+    }
+
+    @Composable
+    fun SystemStatus() {
+        val vm = viewModel<SensorLive>()
+        val screenState by vm.screenState.collectAsState()
+        val status = screenState.systemStatus.status
+        if(status.equals("UP")){
+            Image(painterResource(R.drawable.baseline_gpp_good_24), "content description")
+        }else{
+            Image(painterResource(R.drawable.baseline_warning_amber_24), "content description")
+        }
+        if(false) {
+            Image(painterResource(R.drawable.baseline_electric_bolt_24), "content description")
+            Spacer(modifier = Modifier.padding((150).dp, 0.dp, 0.dp, 0.dp))
+//            Image(painterResource(R.drawable.baseline_gpp_good_24), "content description")
         }
     }
 }
