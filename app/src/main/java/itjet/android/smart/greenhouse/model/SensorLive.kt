@@ -28,6 +28,7 @@ class SensorLive(private val application: Application) : AndroidViewModel(applic
 
     override fun onCleared() {
         super.onCleared()
+        Log.i("greenhouse-refresh","refreshing stop!!")
         toContinue = false
     }
 
@@ -35,12 +36,13 @@ class SensorLive(private val application: Application) : AndroidViewModel(applic
         viewModelScope.launch {
             while (toContinue) {
                 refreshIndicators()
-                delay(500)
+                delay(2000)
             }
         }
     }
 
     fun refreshIndicators() {
+        Log.i("greenhouse-refresh","refreshing data")
         response = Webclient.getInstance().getRetrofitInstance(application).getSensorData()
             .enqueue(object : Callback<SensorData> {
                 override fun onResponse(call: Call<SensorData>, response: Response<SensorData>) {
@@ -61,7 +63,6 @@ class SensorLive(private val application: Application) : AndroidViewModel(applic
                                         data.systemStatus.deviceStatus.voltage
                                     )
                                 )
-
                             )
                         }
                     }

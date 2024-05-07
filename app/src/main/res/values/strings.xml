@@ -4,4 +4,16 @@
     <string name="greenhouse">Szklarnia</string>
     <string name="greenhouse_open_door">Otwórz drzwi szklarni</string>
     <string name="channel_for_greenhouse">channel for greenhouse</string>
+    <string name="jan">Styczeń</string>
+    <string name="feb">Luty</string>
+    <string name="mar">Marzec</string>
+    <string name="apr">Kwiecień</string>
+    <string name="may">Maj</string>
+    <string name="jun">Czerwiec</string>
+    <string name="jul">Lipiec</string>
+    <string name="aug">Sierpień</string>
+    <string name="sep">Wrzesień</string>
+    <string name="oct">Październik</string>
+    <string name="nov">Listopad</string>
+    <string name="dec">Grudzień</string>
 </resources>

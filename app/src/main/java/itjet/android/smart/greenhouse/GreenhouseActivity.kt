@@ -11,11 +11,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import itjet.android.smart.greenhouse.model.SettingsLive
 import itjet.android.smart.greenhouse.screen.IndicatorScreen
+import itjet.android.smart.greenhouse.screen.PowerGraphScreen
 import itjet.android.smart.greenhouse.screen.SettingsScreen
 
 sealed class Destination(val route: String) {
     object IndicatorScreen : Destination("Indicator")
     object Settings : Destination("Settings")
+    object PowerGraphScreen : Destination("Power")
 }
 
 class GreenhouseActivity : ComponentActivity() {
@@ -27,6 +29,7 @@ class GreenhouseActivity : ComponentActivity() {
         val indicators = IndicatorScreen(activity)
         setContent() {
             val settings = SettingsScreen(application)
+            val powerScreen = PowerGraphScreen(applicationContext)
             val vm = viewModel<SettingsLive>()
             val screenState by vm.settingsState.collectAsState()
             val settingsState = screenState
@@ -37,6 +40,7 @@ class GreenhouseActivity : ComponentActivity() {
             ) {
                 composable(Destination.IndicatorScreen.route) { indicators.Indicators(navController = navController) }
                 composable(Destination.Settings.route) { settings.Settings(settingsState) }
+                composable(Destination.PowerGraphScreen.route) { powerScreen.Screen() }
             }
         }
 

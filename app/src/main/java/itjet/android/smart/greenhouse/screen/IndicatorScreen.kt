@@ -239,8 +239,10 @@ class IndicatorScreen(activity: Activity) {
             }
             Row(
                 modifier = Modifier
-                    .padding((width * 0.44).dp, 0.dp, (width * 0.02).dp, 0.dp),
+                    .padding((width * 0.05).dp, 0.dp, (width * 0.0).dp, 0.dp),
             ) {
+                PowerGraph(navController)
+                Spacer(modifier = Modifier.padding((170).dp, 0.dp, 0.dp, 0.dp))
                 Settings(navController)
             }
         }
@@ -602,6 +604,22 @@ class IndicatorScreen(activity: Activity) {
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.baseline_settings_24),
+                contentDescription = null, Modifier.then(Modifier.size((Dp(40F))))
+            ) // decorative element, "Large floating action button")
+        }
+    }
+
+    @Composable
+    fun PowerGraph(navController: NavHostController) {
+
+        Button(
+            onClick = {
+                navController.navigate(Destination.PowerGraphScreen.route)
+            },
+            shape = CircleShape,
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.baseline_insert_chart_outlined_24),
                 contentDescription = null, Modifier.then(Modifier.size((Dp(40F))))
             ) // decorative element, "Large floating action button")
         }

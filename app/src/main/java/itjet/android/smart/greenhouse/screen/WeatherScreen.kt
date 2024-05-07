@@ -52,7 +52,7 @@ class WeatherScreen {
                     )
             ) {
                 val weather = WeatherData()
-                val data = listOf(weather)
+                val data = listOf(weather, weather)
                 LazyColumn(Modifier.fillMaxSize()) {
                     items(data) {
                         Day(it)

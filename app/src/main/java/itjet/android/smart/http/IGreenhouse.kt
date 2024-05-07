@@ -1,5 +1,6 @@
 package itjet.android.smart.http
 
+import itjet.android.smart.greenhouse.model.PowerUsage
 import itjet.android.smart.greenhouse.model.SensorData
 import itjet.android.smart.greenhouse.model.Settings
 import retrofit2.Call
@@ -14,6 +15,9 @@ interface IGreenhouse {
 
     @GET("/greenhouse/settings")
     fun getSettings(): Call<Settings>
+
+    @GET("/greenhouse/log")
+    fun getLogs(): Call<PowerUsage>
 
     @POST("/greenhouse/settings")
     fun putSettings(@Body settings: Settings) : Call<String>
